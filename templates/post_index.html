@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'post/style.css' %}" />
+</head>
+<body>
+<form action="{% url 'post_search' %}" method="post">
+    {% csrf_token %}
+    <input name="search" placeholder="Search....">
+    <button>Go</button>
+</form>
+{% if filtered_posts %}
+    <h1>We found {{ found_number }} posts</h1>
+    {% for post in filtered_posts %}
+            <h1><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h1>
+    {% endfor %}
+{% else %}
+    {% if posts %}
+        {% for post in posts %}
+            <h1><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h1>
+        {% endfor %}
+    {% else %}
+        <h1>You have no posts yet</h1>
+    {% endif %}
+{% endif %}
+</body>
+</html>
